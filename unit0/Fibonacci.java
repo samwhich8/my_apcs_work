@@ -2,7 +2,7 @@ public class Fibonacci {
     public static void main(String[] args) {
         int terms = 30;
 
-        int first = 1;
+        int first = 0;
         int second = 1;
 
         System.out.println(first);
