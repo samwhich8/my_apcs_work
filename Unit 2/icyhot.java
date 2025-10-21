@@ -1,7 +1,9 @@
 public class icyhot {
-    public static void main(String[] args){
-		if (icyhot(120,-1)==true){
-			  System.out.println("OK");
+    public static void testicyhot(int temp1, int temp2, boolean expected){
+		boolean result = icyhot(temp1,temp2);
+		System.out.print("temp1:" + temp1 + ":" + temp2 + "temp2:" + "expected:" + expected + "result:" + result + " ");
+		if (expected==result){
+			  System.out.println("YIPPEE!!");
 		}
 		else {
 		System.out.println("FAIL");
@@ -14,6 +16,12 @@ public static boolean icyhot(int temp1, int temp2) {
 	else{
 		return false;
 	}
+}
+public static void main(String[] args){
+	testicyhot(-1,-8,false);
+	testicyhot(-8,128,true);
+	testicyhot(110,14,false);
+	testicyhot(108,-2,true);
 }
 }
 
