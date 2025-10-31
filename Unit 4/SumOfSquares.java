@@ -1,5 +1,4 @@
-public class SumOfSquares
-{ 	
+public class SumOfSquares{ 	
 	
 	public static void testSumOfSquares(int n, int expected){
 		if (SumOfSquares(n) == expected) {
@@ -18,8 +17,7 @@ public class SumOfSquares
 	}
 	return sum ;
 }
-    public static void main(String[] args)
-    {
+    public static void main(String[] args) {
   
   	testSumOfSquares(2,5);
   	testSumOfSquares(3,14);
