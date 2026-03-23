@@ -1,11 +1,11 @@
 import processing.core.*; 
 
-public class Project extends PApplet
+public class Project2 extends PApplet
 {
       
-      private static int[][] tictactoe_board = new int[3][3];
+private static Block[][] tictactoe_board = new Block[3][3];
       
-      private static final int SCENE_START = 0;
+private static final int SCENE_START = 0;
 private static final int SCENE_PLAY  = 1;
 private int current = SCENE_START;
 
@@ -17,14 +17,17 @@ private int winner = 0;
 
 
 
-private int btnX = 300, btnY = 430, btnW = 200, btnH = 70;
+
+
+
+private int btnX = 450, btnY = 450, btnW = 200, btnH = 70;
 
 private PFont TitleFont;
       
       
        public void settings() // 4
     {
-        size(800, 800);
+        size(900, 900);
        
         
     }
@@ -35,32 +38,56 @@ private PFont TitleFont;
 
     public void draw()
     {
-		if (current == SCENE_START) {
-    displayStart();
-    return;
+		if (current == SCENE_START) 
+		{
+			displayStart();
+              
+		 for(int i = 0; i<3; i++)
+		 {
+			 for(int j= 0; j<3; j++)
+			 {
+				 
+				 int x = 900/3 * i;
+				 int y = 900/3 * j;
+			
+				 
+				tictactoe_board[i][j] = new Block(this,0,x,y,300,300);
+				
+				
+			 }
+		 }   
+			
+			
+		return;
     
-}
-          background(0);
-        noStroke();
-        //fill(50,40,250);
-        ellipse(100, 100, 50, 50);
-        ellipse(100, 400, 50, 50);
-        ellipse(100, 700, 50, 50);   
-        ellipse(400, 100, 50, 50);
-        ellipse(400, 400, 50, 50);
-        ellipse(400, 700, 50, 50);    
-        ellipse(700, 100, 50, 50);
-        ellipse(700, 400, 50, 50);
-        ellipse(700, 700, 50, 50);    
+	   }
+	
+       background(0); 
+     for(int i = 0; i<3; i++)
+     {
+	 for(int j= 0; j<3; j++)
+	 {
+		//tictactoe_board[i][j].x; 
+		 
+      int x = tictactoe_board[i][j].x;
+      int y = tictactoe_board[i][j].y;
+      int w = tictactoe_board[i][j].w;
+      int h = tictactoe_board[i][j].h;
+      
+      fill(69,20,64);
+      rectMode(CORNER);
+      rect(x,y,w,h); 
         
-        stroke(255,182,193);
-		strokeWeight(4);
-        line(250,0,250,800);
-		line(550,0,550,800);
-		line(0,250,800,250);
-		line(0,550,800,550);
-		
-		
+     }
+ }   
+        
+        
+        
+        
+        
+        
+        
+
 		
 		
 		
@@ -68,25 +95,10 @@ private PFont TitleFont;
         {
             for (int j=0; j<3; j++)
             {         
-                   if(tictactoe_board[i][j]==0){		
-					   fill(0);			               
-                
+                  tictactoe_board[i][j].display_elipse(i,j);
+                  					
                     
-                  					
-                 }  
-                 
-                  else if(tictactoe_board[i][j]==1){		
-					   fill(44,161,247);			               
-                   
-                  					
-                 }        
-                  else{		
-					   fill(40,241,194);			               
-                   
-                    
-                  					
-                 }     
-                  ellipse(100+300*i, 100+300*j, 50, 50);    
+
             }          
 		}
 	if (current == SCENE_END) {
@@ -107,7 +119,15 @@ private PFont TitleFont;
     textFont(TitleFont);
     text("Winner is player " + winner, width/2, 250);
 
- 
+  fill(255, 182, 193);
+    stroke(255, 105, 180);
+strokeWeight(3);
+rectMode(CENTER);
+    rect(btnX, btnY, btnW, btnH, 12);
+
+    fill(0);
+    textSize(32);
+    text("Replay", btnX, btnY);
 
   
 }
@@ -126,22 +146,54 @@ private PFont TitleFont;
     fill(255, 182, 193);
     stroke(255, 105, 180);
 strokeWeight(3);
+rectMode(CENTER);
     rect(btnX, btnY, btnW, btnH, 12);
 
     fill(0);
     textSize(32);
-    text("PLAY", btnX + btnW/2, btnY + btnH/2);
+    text("PLAY", btnX, btnY);
+    
+   
 }
+public void reset(){
+	 for(int i = 0; i<3; i++)
+     {
+	 for(int j= 0; j<3; j++)
+	 {
+		
+		tictactoe_board[i][j].value = 0;
+ winner = 0; 
+currentPlayer = 1;
+checkforwinner();
+
+
+
+	}
+}
+}
+	 
+
 public void mousePressed()
 {
  
     if (current == SCENE_START) {
-        if (mouseX >= btnX && mouseX <= btnX + btnW &&
-            mouseY >= btnY && mouseY <= btnY + btnH) {
+        if (mouseX >= btnX - (btnW)/2 && mouseX <= btnX + (btnW)/2 &&
+           mouseY >= btnY - (btnH)/2 && mouseY <= btnY + (btnH)/2) {
+			   
+
+            current = SCENE_PLAY;
+        } 
+        return; 
+	}
+        if (current == SCENE_END) {
+        if (mouseX >= btnX - (btnW)/2 && mouseX <= btnX + (btnW)/2 &&
+           mouseY >= btnY - (btnH)/2 && mouseY <= btnY + (btnH)/2) {
+				reset();
             current = SCENE_PLAY;
         }
         return;
-    }
+	}
+    
 
     if (current == SCENE_PLAY) {
 
@@ -151,8 +203,8 @@ public void mousePressed()
        
 System.out.println(i + " " +j);
       
-        if (tictactoe_board[i][j] == 0) {
-            tictactoe_board[i][j] = currentPlayer;
+        if (tictactoe_board[i][j].value == 0) {
+            tictactoe_board[i][j].value = currentPlayer;
 
            
             currentPlayer = (currentPlayer == 1) ? 2 : 1;
@@ -231,8 +283,8 @@ System.out.println(i + " " +j);
 	{
 	  
 		
-		if (tictactoe_board[p][q] == 0) {
-			tictactoe_board[p][q] = player;
+		if (tictactoe_board[p][q].value == 0) {
+			tictactoe_board[p][q].value = player;
 		}
 		else {
 			System.out.println("CAN'T TAKE THIS SPOT! ITS TAKEN!");
@@ -242,19 +294,7 @@ System.out.println(i + " " +j);
 		
 	}	 
 
-    public static void createTicTacToeArray()
-    {
-
-        for (int i=0; i<3; i++)
-        {
-            for (int j=0; j<3; j++)
-            {         
-                    tictactoe_board[i][j] = 0;
-            }
-        }
-        
-   
-    }
+  
 
 
     public static int sum(int[][] values)
@@ -276,9 +316,9 @@ System.out.println(i + " " +j);
          
             for (int j=0; j<tictactoe_board[i].length; j++) 
             {
-			if(tictactoe_board[i][j] == 0)
+			if(tictactoe_board[i][j].value == 0)
 			 {
-				tictactoe_board[i][j] = 2;
+				tictactoe_board[i][j].value = 2;
 			
 			checkforwinner();
 			return;
@@ -290,41 +330,37 @@ System.out.println(i + " " +j);
 }
 }
 	public void checkforwinner(){
-		if(tictactoe_board[0][0] == tictactoe_board[0][1] &&  tictactoe_board[0][1] == tictactoe_board[0][2] && tictactoe_board[0][0] != 0) {
-			winner = tictactoe_board[0][0];
+		 for (int i=0; i<3 ; i++) 
+		 {
+			 if(tictactoe_board[i][0].value == tictactoe_board[i][1].value &&  tictactoe_board[i][0].value == tictactoe_board[i][2].value && tictactoe_board[i][0].value != 0)
+			 {
+				 winner = tictactoe_board[i][0].value;
+			 }
 		}
+		 if(tictactoe_board[0][0].value == tictactoe_board[1][1].value &&  tictactoe_board[1][1].value == tictactoe_board[2][2].value && tictactoe_board[0][0].value != 0)
+		  {
+			winner = tictactoe_board[0][0].value;
+		}
+		else if(tictactoe_board[2][0].value == tictactoe_board[1][1].value &&  tictactoe_board[1][1].value == tictactoe_board[0][2].value && tictactoe_board[2][0].value != 0)
+		 {
+			winner = tictactoe_board[2][0].value;
+		}
+	for (int j=0; j<3 ; j++) 
+		 {
+			 if(tictactoe_board[0][j].value == tictactoe_board[1][j].value &&  tictactoe_board[0][j].value == tictactoe_board[2][j].value && tictactoe_board[0][j].value != 0){
+				 winner = tictactoe_board[0][j].value;
+			 }
+		 }
+	 }
 			
-		else if(tictactoe_board[0][0] == tictactoe_board[1][0] &&  tictactoe_board[1][0] == tictactoe_board[2][0] && tictactoe_board[0][0] != 0) {
-			winner = tictactoe_board[0][0];
-		}
-		else if(tictactoe_board[0][1] == tictactoe_board[1][1] &&  tictactoe_board[1][1] == tictactoe_board[2][1] && tictactoe_board[0][1] != 0) {
-			winner = tictactoe_board[0][1];
-		}
-		else if(tictactoe_board[0][2] == tictactoe_board[1][2] &&  tictactoe_board[1][2] == tictactoe_board[2][2] && tictactoe_board[0][2] != 0) {
-			winner = tictactoe_board[0][2];
-		}
-		else if(tictactoe_board[1][0] == tictactoe_board[1][1] &&  tictactoe_board[1][1] == tictactoe_board[1][2] && tictactoe_board[1][0] != 0) {
-			winner = tictactoe_board[1][0];
-		}
-		else if(tictactoe_board[2][0] == tictactoe_board[2][1] &&  tictactoe_board[2][1] == tictactoe_board[2][2] && tictactoe_board[2][0] != 0) {
-			winner = tictactoe_board[2][0];
-		}
-		else if(tictactoe_board[0][0] == tictactoe_board[1][1] &&  tictactoe_board[1][1] == tictactoe_board[2][2] && tictactoe_board[0][0] != 0) {
-			winner = tictactoe_board[0][0];
-		}
-		else if(tictactoe_board[2][0] == tictactoe_board[1][1] &&  tictactoe_board[1][1] == tictactoe_board[0][2] && tictactoe_board[2][0] != 0) {
-			winner = tictactoe_board[2][0];
-		}
-		
-			
-}
+
     public static void main(String[] args)
     {     
        
         System.out.println("Tic Tac Toe:");
-             createTicTacToeArray();
+            
 
-        printStuff2(tictactoe_board);
+    //printStuff2(tictactoe_board);
         
 	//UpdateTicTacToeBoard(0,0,1);
 	//UpdateTicTacToeBoard(0,1,1);
@@ -333,11 +369,12 @@ System.out.println(i + " " +j);
 	//UpdateTicTacToeBoard(2,1,2);
 	//UpdateTicTacToeBoard(2,1,1);
 
-	 
+	
 	 
 	
+	 
 	
-		printStuff2(tictactoe_board);
-		PApplet.main("Project"); 
+		//printStuff2(tictactoe_board);
+		PApplet.main("Project2"); 
     }
 }
