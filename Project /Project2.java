@@ -4,6 +4,7 @@ public class Project2 extends PApplet
 {
       
 private static Block[][] tictactoe_board = new Block[3][3];
+
       
 private static final int SCENE_START = 0;
 private static final int SCENE_PLAY  = 1;
@@ -164,7 +165,7 @@ public void reset(){
 		tictactoe_board[i][j].value = 0;
  winner = 0; 
 currentPlayer = 1;
-checkforwinner();
+checkforwinner(tictactoe_board);
 
 
 
@@ -211,12 +212,14 @@ System.out.println(i + " " +j);
             
             
 		}
-     checkforwinner();
+    winner =checkforwinner(tictactoe_board);    
 	System.out.println("player winner" + winner );
 	
 	if(winner == 0){
 		
 		cpuplay();
+		winner =checkforwinner(tictactoe_board);
+
 	    currentPlayer = (currentPlayer == 1) ? 2 : 1;
 	
 }
@@ -256,7 +259,7 @@ System.out.println(i + " " +j);
                 System.out.print(values[i][j] + " ");
             }
 
-            System.out.println(); 
+            //System.out.println(); 
         }
 
         System.out.println();
@@ -310,26 +313,100 @@ System.out.println(i + " " +j);
         return total;
     }
     
+    
+    
     public void cpuplay(){
-		 for (int i=0; i<tictactoe_board.length; i++) 
+		int backup_i = 0;
+		int backup_j = 0;
+		int testwinner = 0;
+		 for ( int i=0; i<tictactoe_board.length; i++) 
         {
-         
-            for (int j=0; j<tictactoe_board[i].length; j++) 
+           for (int  j=0; j<tictactoe_board[j].length; j++) 
             {
 			if(tictactoe_board[i][j].value == 0)
-			 {
-				tictactoe_board[i][j].value = 2;
+			{
+				backup_i = i;
+				backup_j = j;
+			 Block[][] testBoard = new Block[3][3];
+			testBoard = tictactoe_board.clone();
+			testBoard[i][j].value = 2;
 			
-			checkforwinner();
-			return;
+			testwinner = checkforwinner(testBoard);
+			
+			if(testwinner == 2)
+			{
+		tictactoe_board[i][j].value = 2;
+		
+				return;
+			}
+			
 			
 			}
 			
 		}
 	
 }
+	tictactoe_board[backup_i][backup_j].value = 2;
+			return;
+			
 }
-	public void checkforwinner(){
+	
+	public int checkforwinner(Block[][] blocks){
+		 for (int i=0; i<3 ; i++) 
+		 {
+			 if(blocks[i][0].value == blocks[i][1].value &&  blocks[i][0].value == blocks[i][2].value && blocks[i][0].value != 0)
+			 {
+				return blocks[i][0].value;
+			 }
+		}
+		 if(blocks[0][0].value == blocks[1][1].value &&  blocks[1][1].value == blocks[2][2].value && blocks[0][0].value != 0)
+		  {
+		 return blocks[0][0].value;
+		}
+		else if(blocks[2][0].value == blocks[1][1].value &&  blocks[1][1].value == blocks[0][2].value && blocks[2][0].value != 0)
+		 {
+			return blocks[2][0].value;
+		}
+	for (int j=0; j<3 ; j++) 
+		 {
+			 if(blocks[0][j].value == blocks[1][j].value &&  blocks[0][j].value == blocks[2][j].value && blocks[0][j].value != 0){
+				return blocks[0][j].value;
+			 }
+			
+		 }	
+		 return 0; 	 
+	 }
+	 
+			
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	/*public void checkforwinner(){
 		 for (int i=0; i<3 ; i++) 
 		 {
 			 if(tictactoe_board[i][0].value == tictactoe_board[i][1].value &&  tictactoe_board[i][0].value == tictactoe_board[i][2].value && tictactoe_board[i][0].value != 0)
@@ -353,7 +430,7 @@ System.out.println(i + " " +j);
 		 }
 	 }
 			
-
+*/
     public static void main(String[] args)
     {     
        
