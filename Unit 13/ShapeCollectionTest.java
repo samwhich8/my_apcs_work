@@ -1,4 +1,4 @@
-import java.util.*;
+jimport java.util.*;
 
 class Shape
 {

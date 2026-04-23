@@ -17,9 +17,20 @@ public class Block
         this.w = w;
         this.h = h;
       }  
+      
+      
+      public Block(Block other)
+    {
+		this.p = other.p;
+        this.value = other.value;
+        this.x = other.x;
+        this.y = other.y;
+        this.w = other.w;
+        this.h = other.h;
+      }  
     public void display_elipse(int i, int j){
 	
-	System.out.println(this.value);
+	//System.out.println(this.value);
 	
 	     if(this.value==0){		
 					   p.fill(0);			               
@@ -32,14 +43,14 @@ public class Block
 					   p.fill(44,161,247);			               
                    
                   
-                    p.ellipse(100+300*i, 100+300*j, 50, 50);    					
+                    p.ellipse(150+300*i, 150+300*j, 50, 50);    					
                  }        
                   else{		
 					   p.fill(40,241,194);			               
                    	
 		
 		
-	                  p.ellipse(100+300*i, 100+300*j, 50, 50);    
+	                  p.ellipse(150+300*i, 150+300*j, 50, 50);    
 		
 		
     }

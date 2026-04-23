@@ -16,11 +16,6 @@ private int currentPlayer = 1;
 
 private int winner = 0;
 
-
-
-
-
-
 private int btnX = 450, btnY = 450, btnW = 200, btnH = 70;
 
 private PFont TitleFont;
@@ -35,6 +30,13 @@ private PFont TitleFont;
     public void setup()
 {
     TitleFont = createFont("ComicSansMS", 70);
+    for(int i = 0; i < 3; i++) {
+        for(int j = 0; j < 3; j++) {
+            int x = 300 * i;
+            int y = 300 * j;
+            tictactoe_board[i][j] = new Block(this, 0, x, y, 300, 300);
+        }
+    }
 }
 
     public void draw()
@@ -43,20 +45,7 @@ private PFont TitleFont;
 		{
 			displayStart();
               
-		 for(int i = 0; i<3; i++)
-		 {
-			 for(int j= 0; j<3; j++)
-			 {
-				 
-				 int x = 900/3 * i;
-				 int y = 900/3 * j;
-			
-				 
-				tictactoe_board[i][j] = new Block(this,0,x,y,300,300);
-				
-				
-			 }
-		 }   
+
 			
 			
 		return;
@@ -216,7 +205,6 @@ System.out.println(i + " " +j);
 	System.out.println("player winner" + winner );
 	
 	if(winner == 0){
-		
 		cpuplay();
 		winner =checkforwinner(tictactoe_board);
 
@@ -235,18 +223,6 @@ System.out.println(i + " " +j);
 }
 
 
-   public static void doStuff(int[][] values)
-    {
-        System.out.println("Hello, 2D Arrays!\n");
-
-        System.out.println("values.length: " + values.length);
-        System.out.println("values[0][0]: " + values[0][0]);
-        System.out.println("values[2][1]: " + values[2][0]);
-        System.out.println();
-
-        System.out.println("values:");
-        printStuff(values);
-    }
 
     public static void printStuff(int[][] values)
     {
@@ -259,13 +235,13 @@ System.out.println(i + " " +j);
                 System.out.print(values[i][j] + " ");
             }
 
-            //System.out.println(); 
+            System.out.println(); 
         }
 
         System.out.println();
     }
 
-    public static void printStuff2(int[][] values)
+ public static void printStuff2(int[][] values)
     {
      
 
@@ -281,7 +257,7 @@ System.out.println(i + " " +j);
 
         System.out.println();
     }
-	
+
 	public static void UpdateTicTacToeBoard(int p, int q, int player)
 	{
 	  
@@ -316,23 +292,34 @@ System.out.println(i + " " +j);
     
     
     public void cpuplay(){
-		int backup_i = 0;
-		int backup_j = 0;
+		int backup_i = -1;
+		int backup_j = -1;
 		int testwinner = 0;
-		 for ( int i=0; i<tictactoe_board.length; i++) 
+		 for ( int i=0; i<3; i++) 
         {
-           for (int  j=0; j<tictactoe_board[j].length; j++) 
+           for (int  j=0; j<3; j++) 
             {
 			if(tictactoe_board[i][j].value == 0)
 			{
 				backup_i = i;
 				backup_j = j;
-			 Block[][] testBoard = new Block[3][3];
-			testBoard = tictactoe_board.clone();
-			testBoard[i][j].value = 2;
+}
+			Block[][] testBoard = new Block[3][3];
+                for (int r = 0; r < 3; r++) {
+                    for (int c = 0; c < 3; c++) {
+						testBoard[r][c] = new Block(tictactoe_board[r][c]);
+                    }
+                }
 			
+			if(testBoard[i][j].value != 0){
+				continue;
+				
+			
+			
+		}
+		testBoard[i][j].value = 2;
 			testwinner = checkforwinner(testBoard);
-			
+		
 			if(testwinner == 2)
 			{
 		tictactoe_board[i][j].value = 2;
@@ -344,12 +331,15 @@ System.out.println(i + " " +j);
 			}
 			
 		}
+	if (backup_i != -1) {
+        tictactoe_board[backup_i][backup_j].value = 2;
+    }	
+}
 	
-}
-	tictactoe_board[backup_i][backup_j].value = 2;
-			return;
 			
-}
+			
+			
+
 	
 	public int checkforwinner(Block[][] blocks){
 		 for (int i=0; i<3 ; i++) 
@@ -377,81 +367,15 @@ System.out.println(i + " " +j);
 		 return 0; 	 
 	 }
 	 
-			
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	/*public void checkforwinner(){
-		 for (int i=0; i<3 ; i++) 
-		 {
-			 if(tictactoe_board[i][0].value == tictactoe_board[i][1].value &&  tictactoe_board[i][0].value == tictactoe_board[i][2].value && tictactoe_board[i][0].value != 0)
-			 {
-				 winner = tictactoe_board[i][0].value;
-			 }
-		}
-		 if(tictactoe_board[0][0].value == tictactoe_board[1][1].value &&  tictactoe_board[1][1].value == tictactoe_board[2][2].value && tictactoe_board[0][0].value != 0)
-		  {
-			winner = tictactoe_board[0][0].value;
-		}
-		else if(tictactoe_board[2][0].value == tictactoe_board[1][1].value &&  tictactoe_board[1][1].value == tictactoe_board[0][2].value && tictactoe_board[2][0].value != 0)
-		 {
-			winner = tictactoe_board[2][0].value;
-		}
-	for (int j=0; j<3 ; j++) 
-		 {
-			 if(tictactoe_board[0][j].value == tictactoe_board[1][j].value &&  tictactoe_board[0][j].value == tictactoe_board[2][j].value && tictactoe_board[0][j].value != 0){
-				 winner = tictactoe_board[0][j].value;
-			 }
-		 }
-	 }
-			
-*/
+
     public static void main(String[] args)
     {     
        
         System.out.println("Tic Tac Toe:");
             
 
-    //printStuff2(tictactoe_board);
-        
-	//UpdateTicTacToeBoard(0,0,1);
-	//UpdateTicTacToeBoard(0,1,1);
-	//UpdateTicTacToeBoard(0,2,1);
-	
-	//UpdateTicTacToeBoard(2,1,2);
-	//UpdateTicTacToeBoard(2,1,1);
 
-	
-	 
-	
-	 
-	
-		//printStuff2(tictactoe_board);
 		PApplet.main("Project2"); 
     }
+
 }
